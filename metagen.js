@@ -1,5 +1,5 @@
-//import fs from 'fs'
 const fs = require('fs')
+//npm install -g @zerodeps/image-probe
 let probe = require('/usr/local/lib/node_modules/@zerodeps/image-probe').ImageProbe
 let x = fs.readdirSync('./img')
 

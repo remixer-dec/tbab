@@ -1,6 +1,6 @@
 export let RUlocale = {
     _lang: 'RU',
-    SP: 'Одниочная игра',
+    SP: 'Одиночная игра',
     MP: 'Сетевая игра',
     RULES: 'Правила',
     RULESTEXT: 'Тут огромный и длинный текст правил\n на несколько строк',
@@ -33,7 +33,10 @@ export let RUlocale = {
             NAME: 'Макака',
             POWER: 'Сила макаки'
         }
-    }
+    },
+    WIN: 'Победа!\nУра! Вы победили.',
+    LOSS: 'Поражение\nЧто поделать, в другой раз всё получится!',
+    TIE: 'Ничья!\nВозможно стоит сменить тактику?'
 }
 export let ENlocale = {
     _lang: 'EN',
@@ -41,10 +44,10 @@ export let ENlocale = {
     MP: 'Multiplayer',
     RULES: 'Rules',
     RULESTEXT: 'This is a really long text \n with multiple lines',
-    BACK: 'Back to meu',
+    BACK: 'Back to menu',
     CREATEROOM: 'Create new room',
     SELECT: 'SELECT',
-    HERO: 'YOUR HERO',
+    HERO: 'CHARACTER',
     HEROES:{
         FROG:{
             NAME: 'Frog',
@@ -70,5 +73,8 @@ export let ENlocale = {
             NAME: 'Monkey',
             POWER: 'Monkey power'
         }
-    }
+    },
+    WIN: 'Congratulations!\nYou won!',
+    LOSS: 'Defeat!\n This is a lost round, but you can do better in another one',
+    TIE: 'A tie!\n Maybe you should use another strategy?'
 }

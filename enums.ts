@@ -8,3 +8,12 @@ export enum menuState {
     Rules
 }
 
+export enum gameType{
+    SinglePlayer,
+    MultiPlyaer
+}
+
+export enum turn{
+    Upgrade,
+    Battle
+}

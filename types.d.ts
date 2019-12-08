@@ -1,12 +1,12 @@
-interface viewPic{
+interface ViewPic{
     url: string
     w: number
     h: number
-    name:string
+    name: string
     img: HTMLImageElement,
 }
-interface picList{
-    [key: string]: viewPic
+interface PicList{
+    [key: string]: ViewPic
 }
 
 interface Coords{
@@ -15,9 +15,15 @@ interface Coords{
 }
 
 interface Texture{
-    pic:viewPic
-    pos:Coords
-    hover:boolean
+    pic: ViewPic
+    pos: Coords
+    hover?: boolean
+    condition?(): boolean
+    mod?:{
+        targetRotation?: number
+        rotation?: number
+        opacity?: number
+    }
 }
 
 type Color = string
@@ -27,11 +33,30 @@ interface TextAsset{
     pos: Coords
     size: number
     color: Color
+    ctext?(): string 
     multiline?: boolean
 }
 
-interface customClickEvent{
-    s:Coords
-    e:Coords
-    callback():void
+interface ShapeAsset{
+    pos: Coords
+    w(): number
+    h: number
+    color: Color
+}
+
+interface CustomClickEvent{
+    s: Coords
+    e: Coords
+    callback(): void
+}
+
+interface Hero{
+    name: string
+    power: string
+    special(p: any): void
+    pic: ViewPic
+}
+
+interface TextureList{
+    [key: string]: Texture
 }
