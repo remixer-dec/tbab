@@ -6,19 +6,28 @@ import {Heroes} from './heroes.js'
 import {Player} from './player.js'
 import {Animator} from './animator.js'
 import {Utils} from './utils.js';
+import {Multiplayer} from './multiplayer.js';
 
 export abstract class Game{
     public static start(){
         View.changeState(menuState.MainMenu)
         Renderer.drawLoop();
     }
-    public static startMatch(hero:Hero){
+    public static async startMatch(hero:Hero){
         GameState.player = new Player(hero)
+        GameState.turnTimer = 4
         if(GameState.matchtype == gameType.SinglePlayer){
+            GameState.running = true
             GameState.opponent = new Player(Heroes.getRandomHero())
+            View.changeState(menuState.SinglePlayerGame)
+        } else {
+            GameState.running = true
+            Multiplayer.roomserver.send(JSON.stringify({type:'selecthero', obj:hero.pic.name}))
+            GameState.opponent = new Player(<Hero>await Multiplayer.getHero())
+            View.changeState(menuState.MPGame)
+            GameState.turnTimerInterval = setInterval(()=>{GameState.turnTimer > 0 ? GameState.turnTimer -= 1 : 0},1000)
+            GameState.syncInterval = setInterval(()=>Multiplayer.roomserver.send(JSON.stringify({type:'syncstate',obj:GameState.player})),7000)
         }
-        View.changeState(menuState.SinglePlayerGame)
-        GameState.running = true
         Animator.animateBar(0,GameState.player.maxHP,GameState.player,'animHP')
         Animator.animateBar(0,GameState.player.maxMana,GameState.player,'animMana')
         Animator.animateBar(0,GameState.opponent.maxHP,GameState.opponent,'animHP')
@@ -41,11 +50,9 @@ export abstract class Game{
             }
         }
     }
-    private static startBattle(){
+    public static startBattle(){
         if(GameState.matchtype == gameType.SinglePlayer){
             this.AIMove()
-        } else {
-            //Server.getOpponentState()
         }
         GameState.matchturn = turn.Battle
         if(GameState.player.isDefending){
@@ -72,10 +79,11 @@ export abstract class Game{
             let dmg = GameState.opponent.attack - GameState.player.defense
             this.removeHP(GameState.player, dmg > 0 ? dmg : 0) //do not heal yourself from shield
         }
-        setTimeout(()=>this.endBattle(),3300)
+        setTimeout(()=>this.endBattle(),3000)
     }
     public static endBattle(){
         GameState.matchturn = turn.Upgrade
+        GameState.turnTimer = 4
         if(GameState.player.isDead() && GameState.opponent.isDead()){
             //tie
             GameState.result = locale.TIE
@@ -90,6 +98,8 @@ export abstract class Game{
             }    
         }
         if(GameState.player.isDead() || GameState.opponent.isDead()){
+            if(GameState.syncInterval) clearInterval(GameState.syncInterval)
+            if(GameState.turnTimerInterval) clearInterval(GameState.turnTimerInterval)
             GameState.running = false
             View.changeState(menuState.GameEnd);
         }

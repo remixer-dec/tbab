@@ -60,3 +60,14 @@ interface Hero{
 interface TextureList{
     [key: string]: Texture
 }
+
+interface MPLobbyMessage{
+    g: 'tbab'
+    room: string
+    t: number
+}
+
+interface MPRoom{
+    opponentName:string
+    opponentHero:Hero | false
+}

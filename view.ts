@@ -4,7 +4,8 @@ import {Heroes} from './heroes.js'
 import {Game} from './game.js'
 import {GameState} from './gamestate.js'
 import {Utils} from './utils.js'
-import {menuState,gameType} from './enums.js'
+import {Multiplayer} from './multiplayer.js'
+import {menuState,gameType,turn} from './enums.js'
 import * as Locale from './locale.js'
 
 export let locale = (window.navigator.languages.includes("ru") || window.navigator.languages.includes("ru-RU")) ? Locale.RUlocale : Locale.ENlocale
@@ -55,7 +56,7 @@ export abstract class View {
                 return [menuState.GameEnd,menuState.MainMenu].includes(newState)
             break
             case menuState.MPLobby:
-                return [menuState.MainMenu,menuState.MPGame].includes(newState)
+                return [menuState.MainMenu,menuState.PlayerSelect].includes(newState)
             break
             case menuState.MPGame:
                 return [menuState.GameEnd,menuState.MainMenu].includes(newState)
@@ -86,7 +87,7 @@ export abstract class View {
                     {text:locale.MP,pos:{x:640,y:372},size:30,color:'#5f220a'},
                     {text:locale.RULES,pos:{x:640,y:492},size:30,color:'#5f220a'}
                 ]
-                Input.ClickEvents = [
+                Input.clickEvents = [
                     {s:{x:380,y:200},e:{x:380+517,y:200+82},callback:()=>{this.changeState(menuState.PlayerSelect); GameState.matchtype = gameType.SinglePlayer}},
                     {s:{x:380,y:320},e:{x:380+517,y:320+82},callback:()=>{this.changeState(menuState.MPLobby); GameState.matchtype = gameType.MultiPlyaer}},
                     {s:{x:380,y:440},e:{x:380+517,y:440+82},callback:()=>{this.changeState(menuState.Rules)}}
@@ -103,7 +104,7 @@ export abstract class View {
                     {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#000'},
                     {text:locale.RULESTEXT,pos:{x:640,y:200},size:30,color:'#000',multiline:true}
                 ]
-                Input.ClickEvents = [
+                Input.clickEvents = [
                     {s:{x:30,y:10},e:{x:547,y:92},callback:()=>{this.changeState(menuState.MainMenu)}}
                 ]
             break
@@ -117,29 +118,38 @@ export abstract class View {
                     {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#000'},
                     {text:GameState.result,pos:{x:640,y:200},size:30,color:'#000',multiline:true}
                 ]
-                Input.ClickEvents = [
+                Input.clickEvents = [
                     {s:{x:30,y:10},e:{x:547,y:92},callback:()=>{this.changeState(menuState.MainMenu)}}
                 ]
                 Renderer.shapes = []
             break
             case menuState.MPLobby:
+                Multiplayer.setupNickname()
+                Multiplayer.connect()
                 Renderer.textures = [
                     {pic:View.pics.mp_menu,pos:{x:0,y:0}},
                     {pic:View.pics.button_main, pos:{x:30,y:10}},
                     {pic:View.pics.button_main_hover, pos:{x:30,y:10},hover:true},
-                    {pic:View.pics.button_main, pos:{x:730,y:10}},
-                    {pic:View.pics.button_main_hover, pos:{x:730,y:10},hover:true}
+                    {pic:View.pics.button_main, pos:{x:730,y:10},condition:()=>!Multiplayer.roomCreated},
+                    {pic:View.pics.button_main_hover, pos:{x:730,y:10},hover:true},
+                    {pic:View.pics.button_main_hover, pos:{x:730,y:10},condition:()=>Multiplayer.roomCreated},
                 ]
-                for(let i=0;i<10;i++){ // replace with Servers.count after adding mp part
-                    Renderer.textures.push({pic:View.pics.select_server_hover, pos:{x:180,y:150+45*i},hover:true},)
-                }
+
                 Renderer.texts = [
                     {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#000'},
-                    {text:locale.CREATEROOM,pos:{x:730+258,y:62},size:30,color:'#000'},
+                    {text:'',ctext:()=>Multiplayer.roomCreated?locale.ROOMCREATED:locale.CREATEROOM,pos:{x:730+258,y:62},size:30,color:'#000'},
                 ]
-                Input.ClickEvents = [
-                    {s:{x:30,y:10},e:{x:547,y:92},callback:()=>{this.changeState(menuState.MainMenu)}}
+
+                Input.clickEvents = [
+                    {s:{x:30,y:10},e:{x:547,y:92},callback:()=>{Multiplayer.destroyRoom(); this.changeState(menuState.MainMenu)}},
+                    {s:{x:730,y:10},e:{x:730+517,y:92},callback:()=>{Multiplayer.createRoom()}}
                 ]
+
+                for(let i=0;i<10;i++){
+                    Renderer.textures.push({pic:View.pics.select_server_hover, pos:{x:180,y:150+45*i},hover:true})
+                    Renderer.texts.push({text:'',pos:{x:640,y:175+45*i},size:16,color:'#000',ctext:<any>Multiplayer.getServerInfoFunction(i)})
+                    Input.clickEvents.push({s:{x:180,y:150+45*i},e:{x:180+921,y:150+45+45*i},callback:<any>Multiplayer.getServerSelectFunction(i)})
+                }
             break
             case menuState.PlayerSelect:
                 Renderer.textures = [
@@ -174,6 +184,10 @@ export abstract class View {
                     if(timer>0){
                         timer--;
                         timerobj.text=''+timer
+                        if(GameState.running){
+                            timerobj.text=locale.WAITING
+                            clearInterval(tmr)
+                        }
                     } else {
                         if(GameState.running){
                             clearInterval(tmr)
@@ -182,7 +196,7 @@ export abstract class View {
                         Game.startMatch(Heroes.getRandomHero())
                     }
                 },1000)
-                Input.ClickEvents = [
+                Input.clickEvents = [
                     {s:{x:140,y:25},e:{x:340,y:245},callback:()=>{Game.startMatch(Heroes.list.FROG)}},
                     {s:{x:540,y:25},e:{x:740,y:245},callback:()=>{Game.startMatch(Heroes.list.DOG)}},
                     {s:{x:940,y:25},e:{x:1140,y:245},callback:()=>{Game.startMatch(Heroes.list.CAT)}},
@@ -192,6 +206,8 @@ export abstract class View {
                 ]
             break
             case menuState.SinglePlayerGame:
+            case menuState.MPGame:
+                Input.escPressed = false
                 Renderer.textures = [
                     {pic:View.pics.blurred_bg,pos:{x:0,y:0}},
                     {pic:View.pics.battle_top,pos:{x:0,y:0}},
@@ -201,16 +217,22 @@ export abstract class View {
                     {pic:View.pics.hero_hover_down,pos:{x:560,y:150},hover:true},
                     {pic:View.pics.atk_btn_hover,pos:{x:5,y:530},hover:true},
                     {pic:View.pics.def_btn_hover,pos:{x:5,y:625},hover:true},
+                    {pic:View.pics.atk_btn_hover,pos:{x:5,y:530},condition:()=>GameState.matchtype == gameType.MultiPlyaer && GameState.player.isAttacking},
+                    {pic:View.pics.def_btn_hover,pos:{x:5,y:625},condition:()=>GameState.matchtype == gameType.MultiPlyaer && GameState.player.isDefending},
                     {pic:View.pics.upg_btn_hover,pos:{x:215,y:540},hover:true},
                     {pic:View.pics.upg_btn_hover,pos:{x:215,y:635},hover:true},
                     {pic:View.pics.upg_btn_hover,pos:{x:385,y:540},hover:true},
                     {pic:View.pics.upg_btn_hover,pos:{x:385,y:635},hover:true},
+                    {pic:View.pics.blurred_bg, pos:{x:0,y:0},condition:()=>Input.escPressed,mod:{opacity:0.6}},
+                    {pic:View.pics.button_main, pos:{x:380,y:320},condition:()=>Input.escPressed},
                     this.MTextures.PlayerShield,
                     this.MTextures.OpponentShield,
                     this.MTextures.PlayerSword,
                     this.MTextures.OpponentSword
                 ]
-
+                let gtimer = {text:'',pos:{x:640,y:385},size:70,color:'#000',
+                    ctext:()=>GameState.matchtype == gameType.MultiPlyaer && GameState.matchturn == turn.Upgrade ?''+GameState.turnTimer : ''
+                }
                 Renderer.texts = [
                     {text:'',pos:{x:1240,y:592},size:20,color:'#5f220a',ctext:()=>''+Math.ceil(GameState.player.animHP)},
                     {text:'',pos:{x:720,y:32},size:14,color:'#5f220a',ctext:()=>''+Math.ceil(GameState.opponent.animHP)},
@@ -225,15 +247,25 @@ export abstract class View {
                     {text:'5M',pos:{x:520,y:587},size:14,color:'#2196F3'},
                     {text:'SPECIAL',pos:{x:442,y:684},size:22,color:'#fff'},
                     {text:'5M',pos:{x:520,y:681},size:14,color:'#2196F3'},
+                    gtimer,
+                    {text:'',ctext:()=>Input.escPressed?locale.BACK:'',pos:{x:640,y:372},size:30,color:'#5f220a'},
+                    {text:'',ctext:()=>GameState.matchturn == turn.Battle?locale.BATTLE:locale.UPGRADE,pos:{x:45,y:15},size:14,color:'#fff'},
                 ]
-                Input.ClickEvents = [
+                Input.clickEvents = [
                     {s:{x:220,y:550},e:{x:370,y:615},callback:()=>{Game.atkBuff(GameState.player)}},
                     {s:{x:220,y:640},e:{x:370,y:710},callback:()=>{Game.defBuff(GameState.player)}},
                     {s:{x:390,y:550},e:{x:540,y:615},callback:()=>{Game.atkdefBuff(GameState.player)}},
                     {s:{x:390,y:640},e:{x:540,y:710},callback:()=>{Game.special(GameState.player)}},
                     {s:{x:20,y:540},e:{x:90,y:615},callback:()=>{Game.attack(GameState.player)}},
-                    {s:{x:20,y:640},e:{x:90,y:710},callback:()=>{Game.defend(GameState.player)}}
-                    //{s:{x:0,y:0},e:{x:1280,y:720},callback:()=>{this.changeState(menuState.MainMenu)}}
+                    {s:{x:20,y:640},e:{x:90,y:710},callback:()=>{Game.defend(GameState.player)}},
+                    {s:{x:380,y:320},e:{x:380+517,y:320+82},callback:()=>{
+                        if(Input.escPressed){
+                            if(GameState.matchtype == gameType.MultiPlyaer){
+                                Multiplayer.destroyRoom()
+                            }
+                            this.changeState(menuState.MainMenu)
+                        }
+                    }}
                 ]
                 Renderer.shapes = [
                     {pos:{x:745,y:555},w:()=>Utils.calcPixels(GameState.player.animHP,GameState.player.maxHP,530),h:58,color:'#b71c1c'},

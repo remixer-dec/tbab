@@ -1,0 +1,40 @@
+{
+  "name": "tbab",
+  "version": "0.3.0",
+  "description": "a browser game with upgrade & battle stages written in pure typescript",
+  "main": "core.ts",
+  "scripts": {
+    "lint": "eslint *.ts",
+    "format": "npx prettier --write *.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-config": "sed -i 's/dist\\/core.js\"/js\\/core.js\" type=\"module\"/g' index.html",
+    "prod-config": "sed -i 's/js\\/core.js\" type=\"module\"/dist\\/core.js\"/g' index.html",
+    "build": "tsc && parcel build js/core.js --no-source-maps --detailed-report --out-file core.js",
+    "cleanup": "rm -rf js && rm package-lock.json",
+    "deploy": "npm run lint && npm run format && npm run prod-config && npm run build",
+    "reset": "git checkout @ -- *.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remixer-dec/tbab.git"
+  },
+  "author": "remixer-dec",
+  "license": "CC-BY-NC-4.0",
+  "private": true,
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.11.0",
+    "@typescript-eslint/parser": "^2.11.0",
+    "eslint": "^6.7.2",
+    "prettier": "1.19.1"
+  },
+  "dependencies": {
+    "typescript": "^3.7.3"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "semi": false,
+    "singleQuote": true,
+    "tabWidth": 4,
+    "printWidth": 175
+  }
+}

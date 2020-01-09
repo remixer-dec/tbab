@@ -7,4 +7,7 @@ export abstract class GameState{
     public static matchturn:turn
     public static running:boolean
     public static result:string
+    public static syncInterval:number
+    public static turnTimer:number
+    public static turnTimerInterval:number
 }

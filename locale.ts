@@ -34,9 +34,15 @@ export let RUlocale = {
             POWER: 'Сила макаки'
         }
     },
+    UPGRADE: 'ПОДГОТОВКА',
+    BATTLE: 'БИТВА',
     WIN: 'Победа!\nУра! Вы победили.',
     LOSS: 'Поражение\nЧто поделать, в другой раз всё получится!',
-    TIE: 'Ничья!\nВозможно стоит сменить тактику?'
+    TIE: 'Ничья!\nВозможно стоит сменить тактику?',
+    ASKNAME: 'Введите ваш никнейм',
+    ROOMFULL: 'Эта комната уже занята!',
+    ROOMCREATED: 'Комната создана.',
+    WAITING: 'ЖДЁМ'
 }
 export let ENlocale = {
     _lang: 'EN',
@@ -74,7 +80,13 @@ export let ENlocale = {
             POWER: 'Monkey power'
         }
     },
+    UPGRADE: 'UPGRADE',
+    BATTLE: 'BATTLE',
     WIN: 'Congratulations!\nYou won!',
     LOSS: 'Defeat!\n This is a lost round, but you can do better in another one',
-    TIE: 'A tie!\n Maybe you should use another strategy?'
+    TIE: 'A tie!\n Maybe you should use another strategy?',
+    ASKNAME: 'Enter your name',
+    ROOMFULL: 'This room is already full!',
+    ROOMCREATED: 'Room created.',
+    WAITING: 'WAIT'
 }
