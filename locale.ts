@@ -3,7 +3,7 @@ export let RUlocale = {
     SP: 'Одиночная игра',
     MP: 'Сетевая игра',
     RULES: 'Правила',
-    RULESTEXT: 'Тут огромный и длинный текст правил\n на несколько строк',
+    RULESTEXT: 'Игра состоит из этапа подготовки и этапа боя. У каждого игрока на этапе  \nподготовки есть возможность улучшить свои показатели за счёт маны, а \nтакже использовать собстенную способность. После чего нужно выбрать \nдействие игрока (атака или защита). \n\nНа этапе боя наносимый во время атаки урон сравнивается с показателем \nзаищты. Цель игры - победить противника, нанеся ему летальный урон,\n и при этом выжить.\n\nВ одиночной игре бой начинется при выборе действия (атаки или защиты),\n а в сетевой это происходит по таймеру.',
     BACK: 'Назад в меню',
     CREATEROOM: 'Создать комнату',
     SELECT:'ВЫБЕРЕТЕ',
@@ -19,7 +19,7 @@ export let RUlocale = {
         },
         CAT:{
             NAME: 'Кот',
-            POWER: 'Вы наносите себе урон, равный атаке, восстанавливая всю ману'
+            POWER: 'Вы наносите себе урон, равный атаке героя,\n восстанавливая всю ману'
         },
         CHICK: {
             NAME: 'Цыпа',
@@ -27,11 +27,11 @@ export let RUlocale = {
         },
         FISH: {
             NAME: 'Рыба',
-            POWER: 'Восстанавливает здоровье (половину от размера атаки героя)'
+            POWER: 'Восстанавливает здоровье (50% от атаки)'
         },
         MONKEY: {
             NAME: 'Макака',
-            POWER: 'Восстанавливает здоровье (в количестве единиц защиты героя)'
+            POWER: 'Восстанавливает здоровье (100% от защиты)'
         }
     },
     UPGRADE: 'ПОДГОТОВКА',
@@ -49,7 +49,7 @@ export let ENlocale = {
     SP: 'Singleplayer',
     MP: 'Multiplayer',
     RULES: 'Rules',
-    RULESTEXT: 'This is a really long text \n with multiple lines',
+    RULESTEXT: 'The game has two stages. During the upgrade stage you can increase your stats \nand use your special ability. You have to choose if you want to attack or defend\n in the upcoming battle. \n\nDuring the battle stage, every player deals damage matching it\'s attack points. \nDefense mode decreases that damage by the amount of defense points. \n\nThe goal is to deal critical damage to your opponent and stay alive. \nIn singleplayer game, attack/defense mode choice changes game stage.\n In multiplayer it\'s based on a timer.',
     BACK: 'Back to menu',
     CREATEROOM: 'Create new room',
     SELECT: 'SELECT',

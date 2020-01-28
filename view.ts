@@ -102,7 +102,7 @@ export abstract class View {
                     {pic:View.pics.button_main_hover, pos:{x:30,y:10},hover:true},
                 ]
                 Renderer.texts = [
-                    {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#000'},
+                    {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#5f220a'},
                     {text:locale.RULESTEXT,pos:{x:640,y:200},size:30,color:'#000',multiline:true}
                 ]
                 Input.clickEvents = [
@@ -169,17 +169,17 @@ export abstract class View {
                     {text:locale.SELECT,pos:{x:380,y:372},size:40,color:'#000'},
                     {text:locale.HERO,pos:{x:900,y:372},size:40,color:'#000'},
                     {text:locale.HEROES.FROG.NAME,pos:{x:240,y:210},size:26,color:'#000'},
-                    {text:locale.HEROES.FROG.POWER,pos:{x:240,y:240},size:18,color:'#000'},
+                    {text:locale.HEROES.FROG.POWER,pos:{x:240,y:240},size:18,color:'#000',multiline:true},
                     {text:locale.HEROES.DOG.NAME,pos:{x:640,y:210},size:26,color:'#000'},
-                    {text:locale.HEROES.DOG.POWER,pos:{x:640,y:240},size:18,color:'#000'},
+                    {text:locale.HEROES.DOG.POWER,pos:{x:640,y:240},size:18,color:'#000',multiline:true},
                     {text:locale.HEROES.CAT.NAME,pos:{x:1040,y:210},size:26,color:'#000'},
-                    {text:locale.HEROES.CAT.POWER,pos:{x:1040,y:240},size:18,color:'#000'},
+                    {text:locale.HEROES.CAT.POWER,pos:{x:1040,y:240},size:18,color:'#000',multiline:true},
                     {text:locale.HEROES.CHICK.NAME,pos:{x:240,y:520},size:26,color:'#000'},
-                    {text:locale.HEROES.CHICK.POWER,pos:{x:240,y:490},size:18,color:'#000'},
+                    {text:locale.HEROES.CHICK.POWER,pos:{x:240,y:490},size:18,color:'#000',multiline:true},
                     {text:locale.HEROES.FISH.NAME,pos:{x:640,y:520},size:26,color:'#000'},
-                    {text:locale.HEROES.FISH.POWER,pos:{x:640,y:490},size:18,color:'#000'},
+                    {text:locale.HEROES.FISH.POWER,pos:{x:640,y:490},size:18,color:'#000',multiline:true},
                     {text:locale.HEROES.MONKEY.NAME,pos:{x:1040,y:520},size:26,color:'#000'},
-                    {text:locale.HEROES.MONKEY.POWER,pos:{x:1040,y:490},size:18,color:'#000'},
+                    {text:locale.HEROES.MONKEY.POWER,pos:{x:1040,y:490},size:18,color:'#000',multiline:true},
                 ]
                 let tmr = setInterval(()=>{
                     if(timer>0){
@@ -240,14 +240,14 @@ export abstract class View {
                     {text:'',pos:{x:1240,y:675},size:20,color:'#5f220a',ctext:()=>''+Math.ceil(GameState.player.animMana)},
                     {text:'',pos:{x:130,y:590},size:26,color:'#fff',ctext:()=>''+GameState.player.attack},
                     {text:'',pos:{x:130,y:685},size:26,color:'#fff',ctext:()=>''+GameState.player.defense},
-                    {text:'ATK +2%',pos:{x:275,y:590},size:22,color:'#fff'},
+                    {text:'ATK +10%',pos:{x:275,y:590},size:22,color:'#fff'},
                     {text:'5M',pos:{x:350,y:587},size:14,color:'#2196F3'},
-                    {text:'DEF +2%',pos:{x:275,y:684},size:22,color:'#fff'},
+                    {text:'DEF +10%',pos:{x:275,y:684},size:22,color:'#fff'},
                     {text:'5M',pos:{x:350,y:681},size:14,color:'#2196F3'},
-                    {text:'ATK +1%\nDEF +1%',pos:{x:442,y:580},size:22,color:'#fff',multiline:true},
+                    {text:'ATK +5%\nDEF +5%',pos:{x:442,y:580},size:22,color:'#fff',multiline:true},
                     {text:'5M',pos:{x:520,y:587},size:14,color:'#2196F3'},
                     {text:'SPECIAL',pos:{x:442,y:684},size:22,color:'#fff'},
-                    {text:'',pos:{x:520,y:681},size:14,color:'#2196F3',ctext:()=>''+GameState.player.hero.specialCost},
+                    {text:'',pos:{x:520,y:681},size:14,color:'#2196F3',ctext:()=>GameState.player.hero.specialCost+'M'},
                     gtimer,
                     {text:'',ctext:()=>Input.escPressed?locale.BACK:'',pos:{x:640,y:372},size:30,color:'#5f220a'},
                     {text:'',ctext:()=>GameState.matchturn == turn.Battle?locale.BATTLE:locale.UPGRADE,pos:{x:45,y:15},size:14,color:'#fff'},
