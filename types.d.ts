@@ -53,7 +53,8 @@ interface CustomClickEvent{
 interface Hero{
     name: string
     power: string
-    special(p: any): void
+    special(p: any): void,
+    specialCost: number,
     pic: ViewPic
 }
 

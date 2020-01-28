@@ -105,32 +105,38 @@ export abstract class Game{
         }
         GameState.player.isDefending = false
         GameState.player.isAttacking = false
+        GameState.player.specialUsed = false
         GameState.opponent.isAttacking = false
         GameState.opponent.isDefending = false
-        this.removeMana(GameState.player, (10-GameState.player.mana) * -1)
-        GameState.opponent.mana = 10
+        GameState.opponent.specialUsed = false
+        this.removeMana(GameState.player, (GameState.player.maxMana  -  GameState.player.mana) * -1)
+        GameState.opponent.mana = GameState.opponent.maxMana
     }
     public static atkBuff(p:Player){
         if(p.mana >= 5 && GameState.matchturn != turn.Battle){
             this.removeMana(p,5)
-            p.attack = Math.round(p.attack*1.2)
+            p.attack = Math.round(p.attack*1.1)
         }
     }   
     public static defBuff(p:Player){
         if(p.mana >= 5 && GameState.matchturn != turn.Battle){
             this.removeMana(p,5)
-            p.defense = Math.round(p.defense*1.2)
+            p.defense = Math.round(p.defense*1.1)
         }
     }
     public static atkdefBuff(p:Player){
         if(p.mana >= 5 && GameState.matchturn != turn.Battle){
             this.removeMana(p,5)
-            p.attack = Math.round(p.attack*1.1)
-            p.defense = Math.round(p.defense*1.1)
+            p.attack = Math.round(p.attack*1.05)
+            p.defense = Math.round(p.defense*1.05)
         }
     }
     public static special(p:Player){
-        p.hero.special(p)
+        if(GameState.matchturn != turn.Battle && p.mana >= p.hero.specialCost){
+            Game.removeMana(p,p.hero.specialCost)
+            p.hero.special(p)
+            p.specialUsed = true
+        }
     }
     public static attack(p:Player){
         if(!p.isAttacking && !p.isDefending){
@@ -155,6 +161,7 @@ export abstract class Game{
     public static removeHP(p:Player,rm:number){
         let thp = p.HP
         let rmhp = thp - rm
+        if(rmhp > p.maxHP) rmhp =  p.maxHP
         setTimeout(()=>Animator.animateBar(thp,rmhp >= 0 ? rmhp : 0,p,'animHP'),1700)
         p.HP -= rm
     }

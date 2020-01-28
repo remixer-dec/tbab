@@ -11,27 +11,27 @@ export let RUlocale = {
     HEROES:{
         FROG:{
             NAME: 'Лягух',
-            POWER: 'Сила лягуха'
+            POWER: 'Ваша максимальная мана увеличивается на 1'
         },
         DOG:{
             NAME: 'Пёс',
-            POWER: 'Сила пса'
+            POWER: 'Вы получаете +30% к атаке'
         },
         CAT:{
             NAME: 'Кот',
-            POWER: 'Сила кота'
+            POWER: 'Вы наносите себе урон, равный атаке, восстанавливая всю ману'
         },
         CHICK: {
             NAME: 'Цыпа',
-            POWER: 'Сила цыпы'
+            POWER: 'Меняет местами показатели атаки и защиты'
         },
         FISH: {
             NAME: 'Рыба',
-            POWER: 'Сила рыбы'
+            POWER: 'Восстанавливает здоровье (половину от размера атаки героя)'
         },
         MONKEY: {
             NAME: 'Макака',
-            POWER: 'Сила макаки'
+            POWER: 'Восстанавливает здоровье (в количестве единиц защиты героя)'
         }
     },
     UPGRADE: 'ПОДГОТОВКА',
@@ -57,27 +57,27 @@ export let ENlocale = {
     HEROES:{
         FROG:{
             NAME: 'Frog',
-            POWER: 'Frog power'
+            POWER: 'Increases your max. mana by 1'
         },
         DOG:{
             NAME: 'Dog',
-            POWER: 'Dog power'
+            POWER: 'Your hero gains 30% of your attack damage'
         },
         CAT:{
             NAME: 'Cat',
-            POWER: 'Cat power'
+            POWER: 'Deals attack damage to your hero. Restores mana.'
         },
         CHICK: {
             NAME: 'Chick',
-            POWER: 'Chick power'
+            POWER: 'Swaps your attack & defense points'
         },
         FISH: {
             NAME: 'Fish',
-            POWER: 'Fish power'
+            POWER: 'Restores HP by 50% of your attack points'
         },
         MONKEY: {
             NAME: 'Monkey',
-            POWER: 'Monkey power'
+            POWER: 'Restores HP by the amount of your defense'
         }
     },
     UPGRADE: 'UPGRADE',

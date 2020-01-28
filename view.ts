@@ -73,6 +73,7 @@ export abstract class View {
         }
         switch(newState){
             case menuState.MainMenu:
+                GameState.running = false
                 Renderer.textures = [
                     {pic:View.pics.tbab_main_menu,pos:{x:0,y:0}},
                     {pic:View.pics.button_main, pos:{x:380,y:200}},
@@ -115,7 +116,7 @@ export abstract class View {
                     {pic:View.pics.button_main_hover, pos:{x:30,y:10},hover:true},
                 ]
                 Renderer.texts = [
-                    {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#000'},
+                    {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#5f220a'},
                     {text:GameState.result,pos:{x:640,y:200},size:30,color:'#000',multiline:true}
                 ]
                 Input.clickEvents = [
@@ -136,8 +137,8 @@ export abstract class View {
                 ]
 
                 Renderer.texts = [
-                    {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#000'},
-                    {text:'',ctext:()=>Multiplayer.roomCreated?locale.ROOMCREATED:locale.CREATEROOM,pos:{x:730+258,y:62},size:30,color:'#000'},
+                    {text:locale.BACK,pos:{x:293,y:62},size:30,color:'#5f220a'},
+                    {text:'',ctext:()=>Multiplayer.roomCreated?locale.ROOMCREATED:locale.CREATEROOM,pos:{x:730+258,y:62},size:30,color:'#5f220a'},
                 ]
 
                 Input.clickEvents = [
@@ -230,7 +231,7 @@ export abstract class View {
                     this.MTextures.PlayerSword,
                     this.MTextures.OpponentSword
                 ]
-                let gtimer = {text:'',pos:{x:640,y:385},size:70,color:'#000',
+                let gtimer = {text:'',pos:{x:640,y:385},size:70,color:'#fff',
                     ctext:()=>GameState.matchtype == gameType.MultiPlyaer && GameState.matchturn == turn.Upgrade ?''+GameState.turnTimer : ''
                 }
                 Renderer.texts = [
@@ -246,10 +247,12 @@ export abstract class View {
                     {text:'ATK +1%\nDEF +1%',pos:{x:442,y:580},size:22,color:'#fff',multiline:true},
                     {text:'5M',pos:{x:520,y:587},size:14,color:'#2196F3'},
                     {text:'SPECIAL',pos:{x:442,y:684},size:22,color:'#fff'},
-                    {text:'5M',pos:{x:520,y:681},size:14,color:'#2196F3'},
+                    {text:'',pos:{x:520,y:681},size:14,color:'#2196F3',ctext:()=>''+GameState.player.hero.specialCost},
                     gtimer,
                     {text:'',ctext:()=>Input.escPressed?locale.BACK:'',pos:{x:640,y:372},size:30,color:'#5f220a'},
                     {text:'',ctext:()=>GameState.matchturn == turn.Battle?locale.BATTLE:locale.UPGRADE,pos:{x:45,y:15},size:14,color:'#fff'},
+                    {text:'',ctext:()=>GameState.matchtype == gameType.MultiPlyaer?Multiplayer.nickname:'',pos:{x:640,y:713},size:12,color:'#5f220a'},
+                    {text:'',ctext:()=>GameState.matchtype == gameType.MultiPlyaer?Multiplayer.room.opponentName:'',pos:{x:640,y:52},size:12,color:'#5f220a'}
                 ]
                 Input.clickEvents = [
                     {s:{x:220,y:550},e:{x:370,y:615},callback:()=>{Game.atkBuff(GameState.player)}},
