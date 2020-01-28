@@ -1,25 +1,25 @@
-interface ViewPic{
+interface ViewPic {
     url: string
     w: number
     h: number
     name: string
-    img: HTMLImageElement,
+    img: HTMLImageElement
 }
-interface PicList{
+interface PicList {
     [key: string]: ViewPic
 }
 
-interface Coords{
+interface Coords {
     x: number
     y: number
 }
 
-interface Texture{
+interface Texture {
     pic: ViewPic
     pos: Coords
     hover?: boolean
     condition?(): boolean
-    mod?:{
+    mod?: {
         targetRotation?: number
         rotation?: number
         opacity?: number
@@ -28,56 +28,56 @@ interface Texture{
 
 type Color = string
 
-interface TextAsset{
+interface TextAsset {
     text: string
     pos: Coords
     size: number
     color: Color
-    ctext?(): string 
+    ctext?(): string
     multiline?: boolean
-    mod?:{
+    mod?: {
         opacity: number
         offsetX: number
         offsetY: number
     }
 }
 
-interface ShapeAsset{
+interface ShapeAsset {
     pos: Coords
     w(): number
     h: number
     color: Color
 }
 
-interface CustomClickEvent{
+interface CustomClickEvent {
     s: Coords
     e: Coords
     callback(): void
 }
 
-interface Hero{
+interface Hero {
     name: string
     power: string
-    special(p: any): void,
-    specialCost: number,
+    special(p: any): void
+    specialCost: number
     pic: ViewPic
 }
 
-interface TextureList{
+interface TextureList {
     [key: string]: Texture
 }
 
-interface TextList{
+interface TextList {
     [key: string]: TextAsset
 }
 
-interface MPLobbyMessage{
+interface MPLobbyMessage {
     g: 'tbab'
     room: string
     t: number
 }
 
-interface MPRoom{
-    opponentName:string
-    opponentHero:Hero | false
+interface MPRoom {
+    opponentName: string
+    opponentHero: Hero | false
 }
