@@ -55,6 +55,7 @@ export abstract class Game{
             this.AIMove()
         }
         GameState.matchturn = turn.Battle
+        View.MTexts.OpponentHPDiff.text = '-0'
         if(GameState.player.isDefending){
             Animator.appear(View.MTextures.PlayerShield,0.05)
         }
@@ -64,21 +65,38 @@ export abstract class Game{
         if(GameState.player.isAttacking && !GameState.opponent.isDefending){
             Animator.animatePlayerSwordAttack(View.MTextures.PlayerSword,1,0)
             this.removeHP(GameState.opponent,GameState.player.attack)
+            View.MTexts.OpponentHPDiff.text = '-'+GameState.player.attack
         }
         if(GameState.player.isAttacking && GameState.opponent.isDefending){
             Animator.animatePlayerSwordAttack(View.MTextures.PlayerSword,1,4)
             let dmg = GameState.player.attack - GameState.opponent.defense
-            this.removeHP(GameState.opponent, dmg > 0 ? dmg : 0) //do not heal your opponent
+            dmg = dmg > 0 ? dmg : 0 //do not heal your opponent
+            this.removeHP(GameState.opponent, dmg) 
+            View.MTexts.OpponentDamageRecieved.text = ' ' + GameState.player.attack
+            View.MTexts.OpponentDefenseBlocked.text = '-' + GameState.opponent.defense
+            Animator.animateTextAppearDisappear(View.MTexts.OpponentDamageRecieved,-1)
+            Animator.animateTextAppearDisappear(View.MTexts.OpponentDefenseBlocked,-1)
+            View.MTexts.OpponentHPDiff.text = '-'+dmg
         }
+        Animator.animateTextAppearDisappear(View.MTexts.OpponentHPDiff,1)
+        View.MTexts.PlayerHPDiff.text = '-0'
         if(GameState.opponent.isAttacking && !GameState.player.isDefending){
             Animator.animatePlayerSwordAttack(View.MTextures.OpponentSword,-1,0)
             this.removeHP(GameState.player,GameState.opponent.attack)
+            View.MTexts.PlayerHPDiff.text = '-'+GameState.opponent.attack
         }
         if(GameState.opponent.isAttacking && GameState.player.isDefending){
             Animator.animatePlayerSwordAttack(View.MTextures.OpponentSword,-1,4)
             let dmg = GameState.opponent.attack - GameState.player.defense
-            this.removeHP(GameState.player, dmg > 0 ? dmg : 0) //do not heal yourself from shield
+            dmg = dmg > 0 ? dmg : 0 //do not heal yourself from shield
+            this.removeHP(GameState.player, dmg)
+            View.MTexts.PlayerDamageRecieved.text = ' ' + GameState.opponent.attack
+            View.MTexts.PlayerDefenseBlocked.text = '-' + GameState.player.defense
+            Animator.animateTextAppearDisappear(View.MTexts.PlayerDamageRecieved,-1)
+            Animator.animateTextAppearDisappear(View.MTexts.PlayerDefenseBlocked,-1)
+            View.MTexts.PlayerHPDiff.text = '-'+dmg
         }
+        Animator.animateTextAppearDisappear(View.MTexts.PlayerHPDiff,-1)
         setTimeout(()=>this.endBattle(),3000)
     }
     public static endBattle(){

@@ -13,6 +13,7 @@ export let locale = (window.navigator.languages.includes("ru") || window.navigat
 export abstract class View {
     public static pics:PicList = {}
     public static MTextures:TextureList = {}
+    public static MTexts:TextList = {}
     public static currentState:menuState = menuState.MainMenu
     public static async loadPics(arr:any):Promise<boolean[]>{
         let loaded:Promise<boolean>[] = []
@@ -30,15 +31,24 @@ export abstract class View {
             }
         }
         Heroes.init()
-        this.initMTextures()
+        this.initDynamicObjects()
         return Promise.all(loaded)
     }
-    private static initMTextures(){
+    private static initDynamicObjects(){
         this.MTextures = {
             PlayerSword:{pic:this.pics.sword_small_up,pos:{x:610,y:485},condition:()=>GameState.player.isAttacking,mod:{targetRotation:100,rotation:0, opacity:0.001}},
             PlayerShield:{pic:this.pics.shield_small,pos:{x:620,y:490},condition:()=>GameState.player.isDefending,mod:{opacity:0.001}},
             OpponentSword:{pic:this.pics.sword_small_up,pos:{x:610,y:215},condition:()=>GameState.opponent.isAttacking, mod: {rotation:180,targetRotation: 270,opacity:0.001}},
             OpponentShield:{pic:this.pics.shield_small,pos:{x:620,y:215},condition:()=>GameState.opponent.isDefending,mod:{opacity:0.001}}
+        }
+        this.MTexts = {
+            PlayerDamageRecieved: {text:'',pos:{x:680,y:510},size:14,color:'#fff',mod:{opacity:0,offsetY:0,offsetX:0}},
+            PlayerDefenseBlocked: {text:'',pos:{x:680,y:530},size:15,color:'#fff',mod:{opacity:0,offsetY:0,offsetX:0}},
+            PlayerHPDiff: {text:' ',pos:{x:1240,y:572},size:14,color:'#5f220a',mod:{opacity:0,offsetY:0,offsetX:0}},
+            OpponentDamageRecieved: {text:'',pos:{x:600,y:240},size:14,color:'#fff',mod:{opacity:0,offsetY:0,offsetX:0}},
+            OpponentDefenseBlocked: {text:'',pos:{x:600,y:260},size:15,color:'#fff',mod:{opacity:0,offsetY:0,offsetX:0}},
+            OpponentHPDiff: {text:'',pos:{x:720,y:52},size:14,color:'#5f220a',mod:{opacity:0,offsetY:0,offsetX:0}},
+            
         }
     }
     private static validateMenuStateChange(currentState:number,newState:number):boolean{
@@ -249,6 +259,12 @@ export abstract class View {
                     {text:'SPECIAL',pos:{x:442,y:684},size:22,color:'#fff'},
                     {text:'',pos:{x:520,y:681},size:14,color:'#2196F3',ctext:()=>GameState.player.hero.specialCost+'M'},
                     gtimer,
+                    this.MTexts.PlayerDamageRecieved,
+                    this.MTexts.PlayerDefenseBlocked,
+                    this.MTexts.PlayerHPDiff,
+                    this.MTexts.OpponentDamageRecieved,
+                    this.MTexts.OpponentDefenseBlocked,
+                    this.MTexts.OpponentHPDiff,
                     {text:'',ctext:()=>Input.escPressed?locale.BACK:'',pos:{x:640,y:372},size:30,color:'#5f220a'},
                     {text:'',ctext:()=>GameState.matchturn == turn.Battle?locale.BATTLE:locale.UPGRADE,pos:{x:45,y:15},size:14,color:'#fff'},
                     {text:'',ctext:()=>GameState.matchtype == gameType.MultiPlyaer?Multiplayer.nickname:'',pos:{x:640,y:713},size:12,color:'#5f220a'},

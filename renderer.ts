@@ -5,7 +5,7 @@ function $(x:string):any{
 export abstract class Renderer {
     public static ctx  =  $('cvs').getContext('2d')
     public static draw(pic:ViewPic,x:number,y:number,mod?:any){
-        if(mod && mod.opacity){
+        if(mod && mod.opacity >= 0){
             this.ctx.globalAlpha = mod.opacity;
         }
         if(mod && mod.rotation){
@@ -20,11 +20,17 @@ export abstract class Renderer {
         }
         this.ctx.globalAlpha = 1
     }
-    private static drawText(t:string,coords:Coords,fontSize:number,color:Color){
+    private static drawText(t:string,coords:Coords,fontSize:number,color:Color,mod?:any){
         this.ctx.font = fontSize+"px Kelly Slab"
         this.ctx.fillStyle = color;
         this.ctx.textAlign = 'center'
-        this.ctx.fillText(t, coords.x, coords.y)
+        let targetX = coords.x + ((mod && mod.offsetX) ?  mod.offsetX :  0) 
+        let targetY = coords.y + ((mod && mod.offsetY) ?  mod.offsetY :  0)
+        if(mod && mod.opacity >= 0){
+            this.ctx.globalAlpha = mod.opacity;
+        }
+        this.ctx.fillText(t, targetX, targetY)
+        this.ctx.globalAlpha = 1
     }
     public static textures:Texture[] = []
     public static texts:TextAsset[] = []
@@ -69,9 +75,9 @@ export abstract class Renderer {
                 }
             } else{
                 if(text.ctext){
-                    this.drawText(text.ctext(),text.pos,text.size,text.color)
+                    this.drawText(text.ctext(),text.pos,text.size,text.color,text.mod)
                 } else {
-                    this.drawText(text.text,text.pos,text.size,text.color)
+                    this.drawText(text.text,text.pos,text.size,text.color,text.mod)
                 }
             }
         }

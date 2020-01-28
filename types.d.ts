@@ -35,6 +35,11 @@ interface TextAsset{
     color: Color
     ctext?(): string 
     multiline?: boolean
+    mod?:{
+        opacity: number
+        offsetX: number
+        offsetY: number
+    }
 }
 
 interface ShapeAsset{
@@ -60,6 +65,10 @@ interface Hero{
 
 interface TextureList{
     [key: string]: Texture
+}
+
+interface TextList{
+    [key: string]: TextAsset
 }
 
 interface MPLobbyMessage{

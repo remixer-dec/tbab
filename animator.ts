@@ -75,4 +75,27 @@ export abstract class Animator{
             acc+=0.01
         },10)
     }
+    public static animateTextAppearDisappear(t:TextAsset,dir:number){
+        let zframes = 0
+        let opi = 0
+        let offi = 0
+        let a = setInterval(()=>{
+            if(!t.mod) return clearInterval(a)
+            if(zframes > 60 && zframes < 80){
+                opi += 0.05
+                t.mod.opacity += (t.mod.opacity < 1 ? opi : 0)
+            } else if(zframes > 80){
+                t.mod.opacity -= (t.mod.opacity > 0.01 ? 0.01 : 0)
+                offi += 0.005                
+            }
+            t.mod.offsetY += offi * dir
+            if(zframes > 180){
+                clearInterval(a)
+                t.mod.opacity = 0
+                t.mod.offsetY = 0
+                t.text = ''
+            }
+            zframes++
+        },10)
+    }
 }
