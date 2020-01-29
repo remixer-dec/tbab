@@ -9,7 +9,7 @@ TODO:
  - [X] Mobile support & fullscreen  
  - [ ] Add special abilities to AI's script
  - [ ] Add SFX  
- - [ ] Add hover-based special ability description text  
+ - [X] Add hover-based special ability description text  
  - [ ] Move to FWS API v2  
  - [ ] Add an option to select another server  
  - [ ] Add language switch in main menu  

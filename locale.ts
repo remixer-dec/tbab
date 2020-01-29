@@ -43,7 +43,8 @@ export let RUlocale = {
     ROOMFULL: 'Эта комната уже занята!',
     ROOMCREATED: 'Комната создана.',
     WAITING: 'ЖДЁМ',
-    ROTATE: 'Пожалуйста поверните устройтсво'
+    ROTATE: 'Пожалуйста поверните устройтсво',
+    SPECIAL: 'Способность героя:\n'
 }
 export let ENlocale = {
     _lang: 'EN',
@@ -90,5 +91,6 @@ export let ENlocale = {
     ROOMFULL: 'This room is already full!',
     ROOMCREATED: 'Room created.',
     WAITING: 'WAIT',
-    ROTATE: 'Please rotate your device'
+    ROTATE: 'Please rotate your device',
+    SPECIAL: 'Hero\'s special ability:\n'
 }

@@ -36,7 +36,7 @@ export abstract class View {
         }
         return Promise.all(loaded)
     }
-    public static initialize(){
+    public static initialize() {
         Heroes.init()
         this.initDynamicObjects()
     }
@@ -63,7 +63,9 @@ export abstract class View {
             PlayerHPDiff: {text: ' ', pos: {x: 1240, y: 572}, size: 14, color: '#5f220a', mod: {opacity: 0, offsetY: 0, offsetX: 0}},
             OpponentDamageRecieved: {text: '', pos: {x: 600, y: 240}, size: 14, color: '#fff', mod: {opacity: 0, offsetY: 0, offsetX: 0}},
             OpponentDefenseBlocked: {text: '', pos: {x: 600, y: 260}, size: 15, color: '#fff', mod: {opacity: 0, offsetY: 0, offsetX: 0}},
-            OpponentHPDiff: {text: '', pos: {x: 720, y: 52}, size: 14, color: '#5f220a', mod: {opacity: 0, offsetY: 0, offsetX: 0}}
+            OpponentHPDiff: {text: '', pos: {x: 720, y: 52}, size: 14, color: '#5f220a', mod: {opacity: 0, offsetY: 0, offsetX: 0}},
+            HeroSpecial: {text: '', pos: {x: 1039, y: 390}, size: 18, color: '#fff', multiline: true},
+            OpponentSpecial: {text: '', pos: {x: 1039, y: 390}, size: 18, color: '#fff', multiline: true}
         }
     }
     private static validateMenuStateChange(currentState: number, newState: number): boolean {
@@ -340,6 +342,13 @@ export abstract class View {
                     {pic: View.pics.upg_btn_hover, pos: {x: 385, y: 635}, hover: true},
                     {pic: View.pics.blurred_bg, pos: {x: 0, y: 0}, condition: () => Input.escPressed, mod: {opacity: 0.6}},
                     {pic: View.pics.button_main, pos: {x: 380, y: 320}, condition: () => Input.escPressed},
+                    {
+                        pic: View.pics.tooltip_brown,
+                        pos: {x: 820, y: 360},
+                        condition: () =>
+                            (Input.mouse.x > 562 && Input.mouse.y > 540 && Input.mouse.x < 720 && Input.mouse.y < 700) ||
+                            (Input.mouse.x > 562 && Input.mouse.y > 55 && Input.mouse.x < 720 && Input.mouse.y < 214)
+                    },
                     this.MTextures.PlayerShield,
                     this.MTextures.OpponentShield,
                     this.MTextures.PlayerSword,
@@ -383,7 +392,37 @@ export abstract class View {
                         size: 12,
                         color: '#5f220a'
                     },
-                    {text: '⚙', pos: {x: 1260, y: 30}, size: 20, color: '#fff'}
+                    {text: '⚙', pos: {x: 1260, y: 30}, size: 20, color: '#fff'},
+                    this.MTexts.HeroSpecial,
+                    this.MTexts.OpponentSpecial,
+                    {
+                        text: '',
+                        pos: {x: 0, y: 0},
+                        size: 0,
+                        color: '#fff',
+                        ctext: () => {
+                            if (Input.mouse.x > 562 && Input.mouse.y > 540 && Input.mouse.x < 720 && Input.mouse.y < 700) {
+                                this.MTexts.HeroSpecial.text = locale.SPECIAL + GameState.player.hero.power
+                            } else {
+                                this.MTexts.HeroSpecial.text = ''
+                            }
+                            return ''
+                        }
+                    },
+                    {
+                        text: '',
+                        pos: {x: 0, y: 0},
+                        size: 0,
+                        color: '#fff',
+                        ctext: () => {
+                            if (Input.mouse.x > 562 && Input.mouse.y > 55 && Input.mouse.x < 720 && Input.mouse.y < 214) {
+                                this.MTexts.OpponentSpecial.text = locale.SPECIAL + GameState.opponent.hero.power
+                            } else {
+                                this.MTexts.OpponentSpecial.text = ''
+                            }
+                            return ''
+                        }
+                    }
                 ]
                 Input.clickEvents = [
                     {
