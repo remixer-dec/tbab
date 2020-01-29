@@ -51,7 +51,8 @@ export abstract class Renderer {
                 if (
                     Input.mouse.x > texture.pos.x &&
                     Input.mouse.y > texture.pos.y &&
-                    Input.mouse.x < texture.pos.x + texture.pic.w && Input.mouse.y < texture.pos.y + texture.pic.h
+                    Input.mouse.x < texture.pos.x + texture.pic.w &&
+                    Input.mouse.y < texture.pos.y + texture.pic.h
                 ) {
                     this.draw(texture.pic, texture.pos.x, texture.pos.y)
                 }

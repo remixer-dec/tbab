@@ -5,6 +5,7 @@ import {Game} from './game.js'
 import {GameState} from './gamestate.js'
 import {Utils} from './utils.js'
 import {Multiplayer} from './multiplayer.js'
+import {Fullscreen} from './fullscreen.js'
 import {menuState, gameType, turn} from './enums.js'
 import * as Locale from './locale.js'
 
@@ -108,7 +109,8 @@ export abstract class View {
                 Renderer.texts = [
                     {text: locale.SP, pos: {x: 640, y: 252}, size: 30, color: '#5f220a'},
                     {text: locale.MP, pos: {x: 640, y: 372}, size: 30, color: '#5f220a'},
-                    {text: locale.RULES, pos: {x: 640, y: 492}, size: 30, color: '#5f220a'}
+                    {text: locale.RULES, pos: {x: 640, y: 492}, size: 30, color: '#5f220a'},
+                    {text: '[  ]', pos: {x: 1260, y: 700}, size: 20, color: '#ffffff', mod: {opacity: 0.6, offsetX: 0, offsetY: 0}}
                 ]
                 Input.clickEvents = [
                     {
@@ -132,6 +134,13 @@ export abstract class View {
                         e: {x: 380 + 517, y: 440 + 82},
                         callback: () => {
                             this.changeState(menuState.Rules)
+                        }
+                    },
+                    {
+                        s: {x: 1255, y: 690},
+                        e: {x: 1280, y: 720},
+                        callback: () => {
+                            Fullscreen.fullscreen()
                         }
                     }
                 ]
