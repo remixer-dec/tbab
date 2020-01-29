@@ -34,9 +34,11 @@ export abstract class View {
                 img: img
             }
         }
+        return Promise.all(loaded)
+    }
+    public static initialize(){
         Heroes.init()
         this.initDynamicObjects()
-        return Promise.all(loaded)
     }
     private static initDynamicObjects() {
         this.MTextures = {
@@ -137,7 +139,7 @@ export abstract class View {
                         }
                     },
                     {
-                        s: {x: 1255, y: 690},
+                        s: {x: 1245, y: 680},
                         e: {x: 1280, y: 720},
                         callback: () => {
                             Fullscreen.fullscreen()
@@ -380,7 +382,8 @@ export abstract class View {
                         pos: {x: 640, y: 52},
                         size: 12,
                         color: '#5f220a'
-                    }
+                    },
+                    {text: '⚙', pos: {x: 1260, y: 30}, size: 20, color: '#fff'}
                 ]
                 Input.clickEvents = [
                     {
@@ -435,6 +438,13 @@ export abstract class View {
                                 }
                                 this.changeState(menuState.MainMenu)
                             }
+                        }
+                    },
+                    {
+                        s: {x: 1240, y: 0},
+                        e: {x: 1280, y: 50},
+                        callback: () => {
+                            Input.escPressed = !Input.escPressed
                         }
                     }
                 ]

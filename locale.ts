@@ -42,7 +42,8 @@ export let RUlocale = {
     ASKNAME: 'Введите ваш никнейм',
     ROOMFULL: 'Эта комната уже занята!',
     ROOMCREATED: 'Комната создана.',
-    WAITING: 'ЖДЁМ'
+    WAITING: 'ЖДЁМ',
+    ROTATE: 'Пожалуйста поверните устройтсво'
 }
 export let ENlocale = {
     _lang: 'EN',
@@ -88,5 +89,6 @@ export let ENlocale = {
     ASKNAME: 'Enter your name',
     ROOMFULL: 'This room is already full!',
     ROOMCREATED: 'Room created.',
-    WAITING: 'WAIT'
+    WAITING: 'WAIT',
+    ROTATE: 'Please rotate your device'
 }

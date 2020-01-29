@@ -20,7 +20,7 @@
         "@typescript-eslint"
     ],
     "rules": {
-	    "no-case-declarations": "off",
+        "no-case-declarations": "off",
         "no-unused-vars": "off",
         "require-atomic-updates": "off"
     }

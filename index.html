@@ -14,7 +14,7 @@
             background:#f6d2a5;
             border-radius: 8px;
         }
-        .warning {
+        #warning {
             display: none;
         }
         @media only screen and (max-width:1280px){
@@ -25,12 +25,12 @@
                 padding: 0;
             }
             canvas{
-                max-width: 100%;
+                width: 100%;
                 max-height: 100%;
             }
         }
         @media only screen and (max-width:800px) and (orientation:portrait){
-            .warning  {
+            #warning  {
                 display: block;
                 position: absolute;
                 text-align: center;
@@ -52,7 +52,7 @@
     <center>
         <canvas id="cvs" width="1280" height="720"></canvas>
     </center>
-    <div class="warning">Please rotate your device</div>
+    <div id="warning">Please rotate your device</div>
     <script src="./dist/core.js"></script>
     <script>cvs.getContext('2d').fillText('Loading...', 630, 360)</script>
 </body>
