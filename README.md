@@ -1,5 +1,5 @@
 ### The Big AutoBattle  
-A game I decided to make, to practice typescript and to do a websocket lab for the university. Original design. Original game mechanics. Inspired by HS BGs.  
+A [game](https://remixer-dec.github.io/tbab/) I decided to make, to practice typescript and to do a websocket lab for the university. Original design. Original game mechanics. Inspired by HS BGs.  
   
 ![Screenshot](https://i.imgur.com/oCcoi96.png)  
 

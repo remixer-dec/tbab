@@ -133,22 +133,34 @@ export abstract class Game {
         GameState.opponent.mana = GameState.opponent.maxMana
     }
     public static atkBuff(p: Player) {
-        if (p.mana >= 5 && GameState.matchturn != turn.Battle) {
-            this.removeMana(p, 5)
+        if (p.mana >= p.atkBuffCost && GameState.matchturn != turn.Battle) {
+            this.removeMana(p, p.atkBuffCost)
             p.attack = Math.round(p.attack * 1.1)
+            p.atkBuffs++
+            if (p.atkBuffs % 8 == 0) {
+                p.atkBuffCost++
+            }
         }
     }
     public static defBuff(p: Player) {
-        if (p.mana >= 5 && GameState.matchturn != turn.Battle) {
-            this.removeMana(p, 5)
+        if (p.mana >= p.defBuffCost && GameState.matchturn != turn.Battle) {
+            this.removeMana(p, p.defBuffCost)
             p.defense = Math.round(p.defense * 1.1)
+            p.defBuffs++
+            if (p.defBuffs % 8 == 0) {
+                p.defBuffCost++
+            }
         }
     }
     public static atkdefBuff(p: Player) {
-        if (p.mana >= 5 && GameState.matchturn != turn.Battle) {
-            this.removeMana(p, 5)
+        if (p.mana >= p.atkdefBuffCost && GameState.matchturn != turn.Battle) {
+            this.removeMana(p, p.atkdefBuffCost)
             p.attack = Math.round(p.attack * 1.05)
             p.defense = Math.round(p.defense * 1.05)
+            p.atkdefBuffs++
+            if (p.atkdefBuffs % 8 == 0) {
+                p.atkdefBuffCost++
+            }
         }
     }
     public static special(p: Player) {
