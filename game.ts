@@ -7,6 +7,7 @@ import {Player} from './player.js'
 import {Animator} from './animator.js'
 import {Utils} from './utils.js'
 import {Multiplayer} from './multiplayer.js'
+import {AI} from './ai.js'
 
 export abstract class Game {
     public static start() {
@@ -35,21 +36,25 @@ export abstract class Game {
         Animator.animateBar(0, GameState.opponent.maxHP, GameState.opponent, 'animHP')
     }
     private static AIMove() {
-        if (Utils.rng(0, 1) == 1) {
-            this.atkBuff(GameState.opponent)
-            GameState.opponent.isAttacking = true
-        } else {
-            this.defBuff(GameState.opponent)
-            GameState.opponent.isDefending = true
-        }
-        if (Utils.rng(0, 1) == 1) {
-            this.atkBuff(GameState.opponent)
-        } else {
-            if (Utils.rng(0, 1) == 1) {
-                this.defBuff(GameState.opponent)
-            } else {
-                this.atkdefBuff(GameState.opponent)
-            }
+        switch (GameState.opponent.hero.name) {
+            case Heroes.list.FROG.name:
+                AI.frogStrategy(GameState.opponent, GameState.player)
+                break
+            case Heroes.list.DOG.name:
+                AI.dogStrategy(GameState.opponent, GameState.player)
+                break
+            case Heroes.list.CAT.name:
+                AI.catStrategy(GameState.opponent, GameState.player)
+                break
+            case Heroes.list.CHICK.name:
+                AI.chickStrategy(GameState.opponent, GameState.player)
+                break
+            case Heroes.list.FISH.name:
+                AI.fishStrategy(GameState.opponent, GameState.player)
+                break
+            case Heroes.list.MONKEY.name:
+                AI.monkeyStrategy(GameState.opponent, GameState.player)
+                break
         }
     }
     public static startBattle() {
@@ -121,7 +126,7 @@ export abstract class Game {
             if (GameState.syncInterval) clearInterval(GameState.syncInterval)
             if (GameState.turnTimerInterval) clearInterval(GameState.turnTimerInterval)
             GameState.running = false
-            View.changeState(menuState.GameEnd)
+            setTimeout(() => View.changeState(menuState.GameEnd), 1000)
         }
         GameState.player.isDefending = false
         GameState.player.isAttacking = false

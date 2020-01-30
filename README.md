@@ -7,7 +7,7 @@ The game has two stages. During the upgrade stage you can increase your stats an
   
 TODO:  
  - [X] Mobile support & fullscreen  
- - [ ] Add special abilities to AI's script
+ - [X] Add special abilities to AI's script
  - [ ] Add SFX  
  - [X] Add hover-based special ability description text  
  - [ ] Move to FWS API v2  
